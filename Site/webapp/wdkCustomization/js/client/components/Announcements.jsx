@@ -1,29 +1,35 @@
-import React, { useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
-import { groupBy, noop } from 'lodash';
+import React, { useCallback } from "react";
+import { useLocation } from "react-router-dom";
+import { groupBy, noop } from "lodash";
 
-import { Link, IconAlt } from 'wdk-client/Components';
-import { useWdkService } from 'wdk-client/Hooks/WdkServiceHook';
-import { safeHtml } from 'wdk-client/Utils/ComponentUtils';
+import { Link, IconAlt } from "wdk-client/Components";
+import { useWdkService } from "wdk-client/Hooks/WdkServiceHook";
+import { safeHtml } from "wdk-client/Utils/ComponentUtils";
 
 const stopIcon = (
-  <span className="fa-stack" style={{ fontSize: '1.2em' }}>
-    <i className="fa fa-circle fa-stack-2x" style={{color: 'darkred'}}/>
-    <i className="fa fa-times fa-stack-1x" style={{color: 'white'}}/>
+  <span className="fa-stack" style={{ fontSize: "1.2em" }}>
+    <i className="fa fa-circle fa-stack-2x" style={{ color: "darkred" }} />
+    <i className="fa fa-times fa-stack-1x" style={{ color: "white" }} />
   </span>
 );
 
 const warningIcon = (
-  <span className="fa-stack" style={{ fontSize: '1.2em' }}>
-    <i className="fa fa-exclamation-triangle fa-stack-2x" style={{color: '#ffeb3b'}}/>
-    <i className="fa fa-exclamation fa-stack-1x" style={{color: 'black', fontSize: '1.3em', top: 2}}/>
+  <span className="fa-stack" style={{ fontSize: "1.2em" }}>
+    <i
+      className="fa fa-exclamation-triangle fa-stack-2x"
+      style={{ color: "#ffeb3b" }}
+    />
+    <i
+      className="fa fa-exclamation fa-stack-1x"
+      style={{ color: "black", fontSize: "1.3em", top: 2 }}
+    />
   </span>
 );
 
 const infoIcon = (
-  <span className="fa-stack" style={{ fontSize: '1.2em' }}>
-    <i className="fa fa-circle fa-stack-2x" style={{color: '#004aff'}}/>
-    <i className="fa fa-info fa-stack-1x" style={{color: 'white'}}/>
+  <span className="fa-stack" style={{ fontSize: "1.2em" }}>
+    <i className="fa fa-circle fa-stack-2x" style={{ color: "#004aff" }} />
+    <i className="fa fa-info fa-stack-1x" style={{ color: "white" }} />
   </span>
 );
 
@@ -33,49 +39,62 @@ const infoIcon = (
 const siteAnnouncements = [
   // alpha
   {
-    id: 'alpha',
-    renderDisplay: props => {
-      if (param('alpha', props.location) === 'true' || /^(alpha|a1|a2)/.test(window.location.hostname)) {
+    id: "alpha",
+    renderDisplay: (props) => {
+      if (
+        param("alpha", props.location) === "true" ||
+        /^(alpha|a1|a2)/.test(window.location.hostname)
+      ) {
         return (
           <div key="alpha">
-            This pre-release version of {props.projectId} is available for early community review.
-            Your searches and strategies saved in this alpha release will not be available in the
-            official release.
-            Please explore the site and <Link to="/contact-us" target="_blank">contact us</Link> with your feedback.
-            This site is under active development so there may be incomplete or
-            inaccurate data and occasional site outages can be expected.
+            This pre-release version of the NIAGADS Alzheimer's GenomicsDB is available for early
+            community review. Your searches and strategies saved in this alpha
+            release will not be available in the official release. Please
+            explore the site and{" "}
+            <Link to="/contact-us" target="_blank">
+              contact us
+            </Link>{" "}
+            with your feedback. This site is under active development so there
+            may be incomplete or inaccurate data and occasional site outages can
+            be expected.
           </div>
         );
       }
-    }
+    },
   },
 
-  { 
-    id: 'live-beta',
-    renderDisplay: props => {
-      if ( isGenomicHomePage(props.projectId, props.location) ) {
-        if (props.projectId == 'VectorBase' || props.projectId == 'OrthoMCL') return (
+  {
+    id: "live-beta",
+    renderDisplay: (props) => {
+      if (true /*isGenomicHomePage(props.projectId, props.location)*/) {
+        return (
           <div key="live-beta">
-            Welcome to {props.displayName} <i>beta</i> where you will find the newest versions of our interface, features, tools and data.  
-            While we transition to making this beta site permanent, <a target="_blank" href={`https://legacy.${props.projectId.toLowerCase()}.${props.projectId === 'SchistoDB' ? 'net' : 'org'}`}>
-            legacy.{props.projectId.toLowerCase()}.org</a> is still available. 
-            Here is a <a target="_blank" href="https://upenn.co1.qualtrics.com/jfe/form/SV_9N2RTXq7ljpZnDv">form for sending your feedback</a> on the beta sites.
+            Welcome to NIAGADS Alzheimer's GenomicsDB ({props.projectId}) <i>beta</i> where you will find the
+            newest versions of our interface, features, tools and data. While we
+            transition to making this beta site permanent,{" "}
+            <a
+              target="_blank"
+              href="https://www.niagads.org/genomics"
+    
+            >
+              www.niagads.org/genomics
+            </a>{" "}
+            is still available (to be retired by 2022). Please feel free to provide us with your feedback using this {" "}
+            <a
+              target="_blank"
+              href="https://upenn.co1.qualtrics.com/jfe/form/SV_869ZYgJgalnKUCi"
+            >
+              beta-site feedback form 
+            </a>.
+           
           </div>
-        )
-        else return (
-          <div key="live-beta">
-            Welcome to {props.displayName} <i>beta</i> where you will find the newest versions of our interface, features, tools and data.
-            While we transition to making this beta site permanent, <a target="_blank" href={`https://legacy.${props.projectId.toLowerCase()}.${props.projectId === 'SchistoDB' ? 'net' : 'org'}`}>
-            legacy.{props.projectId.toLowerCase()}.org</a> is still available (to be retired March 2nd).
-            Here is a <a target="_blank" href="https://upenn.co1.qualtrics.com/jfe/form/SV_9N2RTXq7ljpZnDv">form for sending your feedback</a> on the beta sites.
-          </div> 
-        )
+        );
       }
-    }
+    },
   },
 
- // clinepi workshop
-/*
+  // clinepi workshop
+  /*
   {
     id: 'clinepi-workshop',
     renderDisplay: (props) => {
@@ -91,10 +110,9 @@ const siteAnnouncements = [
   },
 */
 
-
   // beta
   //  /*isBetaSite() || */
-/*
+  /*
   {
     id: 'beta-genomics',
     renderDisplay: props => {
@@ -110,27 +128,20 @@ const siteAnnouncements = [
   },
 */
 
-/*
+  
   {
     id: 'strategies-beta',
     category: 'degraded',
     renderDisplay: props => {
       if ( isGenomicSite(props.projectId) && ( isStrategies(props.location) || isBasket(props.location) || isFavorites(props.location) ) ) return (
         <div key="strategies-beta">
-          Strategies, baskets and favorites you save on this <i>beta</i> site are not permanent. 
-          {
-            props.projectId !== 'VectorBase' &&
-            <React.Fragment>
-              {' '}
-              Use the <a rel="noreferrer" href={`https://${props.projectId.toLowerCase()}.${props.projectId === 'SchistoDB' ? 'net' : 'org'}`}>legacy site</a> to save them permanently.
-            </React.Fragment>
-          }
+          If user accounts are enabled, strategies, baskets and favorites you save on this <i>beta</i> site may not be permanently stored.
         </div>
       )
     }
   },
-*/
-/*
+
+  /*
   { 
     id: 'apollo-galaxy-off',
     category: 'degraded',
@@ -146,52 +157,55 @@ const siteAnnouncements = [
 
   // TriTryp gene page for Bodo saltans strain Lake Konstanz
   {
-    id: 'geneFungi',
-    renderDisplay: props => { 
-      if ( (props.projectId == 'TriTrypDB') && 
-           ( (props.location.pathname.indexOf("/record/gene/BS") > -1)    ||
-             (props.location.pathname.indexOf("/record/gene/BSAL_") > -1)
-           )  
-         ) 
-      {
+    id: "geneFungi",
+    renderDisplay: (props) => {
+      if (
+        props.projectId == "TriTrypDB" &&
+        (props.location.pathname.indexOf("/record/gene/BS") > -1 ||
+          props.location.pathname.indexOf("/record/gene/BSAL_") > -1)
+      ) {
         return (
           <div key="geneFungi">
-            This <i>Bodo saltans</i> genome sequence and annotation represents a draft version. Please carefully consider gene models and genome structure before drawing conclusions.
+            This <i>Bodo saltans</i> genome sequence and annotation represents a
+            draft version. Please carefully consider gene models and genome
+            structure before drawing conclusions.
           </div>
         );
       }
       return null;
-    }
+    },
   },
 
   // OrthoMCL enzyme/compound
   {
-    id: 'ortho-enzyme',
+    id: "ortho-enzyme",
     renderDisplay: (props) => {
-      if (props.projectId == 'OrthoMCL' && (/(enzyme|compound)/i).test(window.location.href)) {
+      if (
+        props.projectId == "OrthoMCL" &&
+        /(enzyme|compound)/i.test(window.location.href)
+      ) {
         return (
           <div key="ortho-enzyme">
-            Note: the Enzyme Commission (EC) numbers associated with proteins were
-            obtained only from UniProt. In future releases we expect to include EC
-            numbers from multiple sources including the annotation.
+            Note: the Enzyme Commission (EC) numbers associated with proteins
+            were obtained only from UniProt. In future releases we expect to
+            include EC numbers from multiple sources including the annotation.
           </div>
         );
       }
       return null;
-    }
-  }
-
+    },
+  },
 ];
 
-const fetchAnnouncementsData = async wdkService => {
-  const [ config, announcements ] = await Promise.all([
+const fetchAnnouncementsData = async (wdkService) => {
+  const [config, announcements] = await Promise.all([
     wdkService.getConfig(),
-    wdkService.getSiteMessages()
+    wdkService.getSiteMessages(),
   ]);
 
   return {
     config,
-    announcements
+    announcements,
   };
 };
 
@@ -200,40 +214,46 @@ const fetchAnnouncementsData = async wdkService => {
  */
 export default function Announcements({
   closedBanners = [],
-  setClosedBanners = noop
+  setClosedBanners = noop,
 }) {
   const location = useLocation();
   const data = useWdkService(fetchAnnouncementsData, []);
 
-  const onCloseFactory = useCallback(id => () => {
-    setClosedBanners([ ...closedBanners, id ]);
-  }, [ closedBanners ]);
+  const onCloseFactory = useCallback(
+    (id) => () => {
+      setClosedBanners([...closedBanners, id]);
+    },
+    [closedBanners]
+  );
 
   if (data == null) return null;
 
-  const { down = [], degraded = [], information = [] } = groupBy(data.announcements, 'category');
+  const { down = [], degraded = [], information = [] } = groupBy(
+    data.announcements,
+    "category"
+  );
 
   return (
     <div>
-      {
-        [
-          ...down,
-          ...degraded,
-          ...information,
-          ...siteAnnouncements
-        ].map(announcementData => {
-          const category = announcementData.category || 'page-information';
+      {[...down, ...degraded, ...information, ...siteAnnouncements].map(
+        (announcementData) => {
+          const category = announcementData.category || "page-information";
 
           // Currently, only announcements of category "information" are dismissible
-          const dismissible = category === 'information';
-          const isOpen = dismissible ? !closedBanners.includes(`${announcementData.id}`) : true;
-          const onClose = dismissible ? onCloseFactory(`${announcementData.id}`) : noop;
+          const dismissible = category === "information";
+          const isOpen = dismissible
+            ? !closedBanners.includes(`${announcementData.id}`)
+            : true;
+          const onClose = dismissible
+            ? onCloseFactory(`${announcementData.id}`)
+            : noop;
 
-          const display = typeof announcementData.renderDisplay === 'function' 
-            ? announcementData.renderDisplay({ ...data.config, location })
-            : category !== 'information' || location.pathname === '/'
-            ? toElement(announcementData)
-            : null;
+          const display =
+            typeof announcementData.renderDisplay === "function"
+              ? announcementData.renderDisplay({ ...data.config, location })
+              : category !== "information" || location.pathname === "/"
+              ? toElement(announcementData)
+              : null;
 
           return (
             <AnnouncementContainer
@@ -245,7 +265,8 @@ export default function Announcements({
               display={display}
             />
           );
-        })}
+        }
+      )}
     </div>
   );
 }
@@ -254,11 +275,12 @@ export default function Announcements({
  * Container for a single announcement banner.
  */
 function AnnouncementContainer(props) {
-  const icon = props.category === 'down'
-    ? stopIcon
-    : props.category === 'degraded'
-    ? warningIcon
-    : infoIcon;
+  const icon =
+    props.category === "down"
+      ? stopIcon
+      : props.category === "degraded"
+      ? warningIcon
+      : infoIcon;
 
   return <AnnouncementBanner {...props} icon={icon} />;
 }
@@ -266,57 +288,61 @@ function AnnouncementContainer(props) {
 /**
  * Banner for a single announcement.
  */
-function AnnouncementBanner({ 
-  isOpen, 
-  onClose, 
-  icon,
-  display,
-  dismissible
-}) {
+function AnnouncementBanner({ isOpen, onClose, icon, display, dismissible }) {
   if (display == null) {
     return null;
   }
 
   return (
-    <div className="eupathdb-Announcement" style={{
-      margin: '3px',
-      padding: '.5em',
-      borderRadius: '0.5em',
-      borderWidth: '1px',
-      borderColor: 'lightgrey',
-      borderStyle: 'solid',
-      background: '#E3F2FD',
-      display: isOpen ? 'block' : 'none'
-    }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-      }}>
+    <div
+      className="eupathdb-Announcement"
+      style={{
+        margin: "3px",
+        padding: ".5em",
+        borderRadius: "0.5em",
+        borderWidth: "1px",
+        borderColor: "lightgrey",
+        borderStyle: "solid",
+        background: "#E3F2FD",
+        display: isOpen ? "block" : "none",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
         {icon}
-        <div style={{
-          marginLeft: '1em',
-          display: 'inline-block',
-          width: 'calc(100% - 5.5em)',
-          padding: '8px',
-          verticalAlign: 'middle',
-          color: 'black',
-          fontSize: '1.2em'
-        }}>
+        <div
+          style={{
+            marginLeft: "1em",
+            display: "inline-block",
+            width: "calc(100% - 5.5em)",
+            padding: "8px",
+            verticalAlign: "middle",
+            color: "black",
+            fontSize: "1.2em",
+          }}
+        >
           {display}
         </div>
-        {
-          dismissible &&
-          <div style={{ marginLeft: 'auto' }}>
-            <button onClick={onClose} className="link" style={{
-              color: '#7c7c7c',
-              alignSelf: 'flex-start',
-              fontSize: '0.8em'
-            }}>
+        {dismissible && (
+          <div style={{ marginLeft: "auto" }}>
+            <button
+              onClick={onClose}
+              className="link"
+              style={{
+                color: "#7c7c7c",
+                alignSelf: "flex-start",
+                fontSize: "0.8em",
+              }}
+            >
               <IconAlt fa="times" className="fa-2x" />
             </button>
           </div>
-        }
+        )}
       </div>
     </div>
   );
@@ -329,7 +355,7 @@ function AnnouncementBanner({
  * @return {React.Element}
  */
 function toElement({ message }) {
-  return safeHtml(message, { key: message }, 'div');
+  return safeHtml(message, { key: message }, "div");
 }
 
 /**
@@ -340,7 +366,7 @@ function toElement({ message }) {
  * @return {React.Element[]}
  */
 function injectHr(previous, next) {
-  return previous == null ? [ next ] : previous.concat(<hr/>, next);
+  return previous == null ? [next] : previous.concat(<hr />, next);
 }
 
 /**
@@ -349,7 +375,7 @@ function injectHr(previous, next) {
  * @return {(fn: Function) => any}
  */
 function invokeWith(...args) {
-  return fn => fn(...args);
+  return (fn) => fn(...args);
 }
 
 /**
@@ -359,13 +385,13 @@ function invokeWith(...args) {
  * @param {Location} location
  * @return {string?}
  */
-function param(name, { search = '' }) {
+function param(name, { search = "" }) {
   return search
     .slice(1)
-    .split('&')
-    .map(entry => entry.split('='))
-    .filter(entry => entry[0] === name)
-    .map(entry => entry[1])
+    .split("&")
+    .map((entry) => entry.split("="))
+    .filter((entry) => entry[0] === name)
+    .map((entry) => entry[1])
     .map(decodeURIComponent)
     .find(() => true);
 }
@@ -374,23 +400,26 @@ function isGenomicSite(projectId) {
   return !/ClinEpiDB|MicrobiomeDB/i.test(projectId);
 }
 function isBetaSite() {
-  return param('beta', window.location) === 'true' || /^(beta|b1|b2)/.test(window.location.hostname);
+  return (
+    param("beta", window.location) === "true" ||
+    /^(beta|b1|b2)/.test(window.location.hostname)
+  );
 }
 function isGalaxy(routerLocation) {
-  return routerLocation.pathname.startsWith('/galaxy-orientation');
+  return routerLocation.pathname.startsWith("/galaxy-orientation");
 }
 function isApollo(routerLocation) {
-  return routerLocation.pathname.startsWith('/static-content/apollo');
+  return routerLocation.pathname.startsWith("/static-content/apollo");
 }
 function isStrategies(routerLocation) {
-  return routerLocation.pathname.startsWith('/workspace/strategies');
+  return routerLocation.pathname.startsWith("/workspace/strategies");
 }
 function isBasket(routerLocation) {
-  return routerLocation.pathname.startsWith('/workspace/basket');
+  return routerLocation.pathname.startsWith("/workspace/basket");
 }
 function isFavorites(routerLocation) {
-  return routerLocation.pathname.startsWith('/workspace/favorites');
+  return routerLocation.pathname.startsWith("/workspace/favorites");
 }
 function isGenomicHomePage(projectId, routerLocation) {
-  return isGenomicSite(projectId) && routerLocation.pathname === '/';
+  return isGenomicSite(projectId) && routerLocation.pathname === "/";
 }

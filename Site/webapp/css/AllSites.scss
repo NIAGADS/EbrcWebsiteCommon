@@ -5,7 +5,13 @@
  */
 
 body {
-  min-width: 1070px;
+  min-width: 1070px; // override wdk-Common.css
+  width: 100%;
+//    width: 100vw;
+ //   height: 100vh;
+  //  display: flex;
+  //  align-items: flex-start;
+  //  justify-content: center;
 }
 
 /** This image messes with layout */
@@ -98,7 +104,7 @@ a:hover, a:active, a:focus, div.divlink:hover, .link:hover, .wdk-Link:hover {
 	text-decoration: underline;
 }
 
-h1 {
+/*h1 {
   color: #222;
   margin: 0;
   padding: 22px 0;
@@ -124,7 +130,7 @@ h4 {
 
 .h2center, .h3left,.h3center, .h4left {
   color: #222;
-}
+} */
 
 a[name] {
   text-decoration: none;
@@ -138,12 +144,12 @@ a[name] {
   text-decoration: underline;
 }
 
-:focus {
+/*:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 
-}
+}*/
 a.eupathdb-BigButton,input[type="submit"] {
   color: #3e3e3e;
   text-decoration: none;
@@ -160,14 +166,14 @@ input.link, button.link, button.wdk-Link {
 /* Search boxes */
 textarea,
 input[type]:not([type=button]):not([type=checkbox]):not([type=file]):not([type=hidden]):not([type=image]):not([type=radio]):not([type=range]):not([type=reset]):not([type=submit]):not([class~="select2-input"]):not([class~="wdk-RealTimeSearchBoxInput"]) {
-  border: 1px solid #888;
+  //border: 1px solid #888;
 }
 input[type]:not([type=button]):not([type=checkbox]):not([type=file]):not([type=hidden]):not([type=image]):not([type=radio]):not([type=range]):not([type=reset]):not([type=submit]):not([class~="select2-input"]):not([class~="wdk-RealTimeSearchBoxInput"]):not([disabled]) {
-  background: #fafaf9;
+  //background: #fafaf9;
 }
 textarea,
 input[type]:not([type=button]):not([type=checkbox]):not([type=file]):not([type=hidden]):not([type=image]):not([type=radio]):not([type=range]):not([type=reset]):not([type=submit]):not([class~="select2-input"]):not([class~="wdk-RealTimeSearchBoxInput"]):not([class~="wdk-Answer-filterInput"]) {
-  padding: 4px;
+  //padding: 4px;
 }
 
 /* Filtering input */
@@ -177,16 +183,16 @@ input[type]:not([type=button]):not([type=checkbox]):not([type=file]):not([type=h
   padding: 0.2em 1.5em .2em 1em;
 }
 
-::-webkit-input-placeholder { color: #888; }
-:-ms-input-placeholder      { color: #888; }
+/*::-webkit-input-placeholder { color: #888; }
+:-ms-input-placeholder      { color: #888; }*/
 /* firefox seems to lighten the color, so making it darker to compensate */
-::-moz-placeholder          { color: #333; }
-:-moz-placeholder           { color: #333; }
+/*::-moz-placeholder          { color: #333; }
+:-moz-placeholder           { color: #333; }*/
 
 
-::placeholder {
+/*::placeholder {
   font-style: italic;
-}
+}*/
 
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
