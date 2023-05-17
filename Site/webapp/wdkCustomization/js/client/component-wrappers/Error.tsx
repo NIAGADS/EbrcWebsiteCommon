@@ -28,8 +28,8 @@ export function Error(DefaultComponent: React.ComponentType<Props>) {
       return '# ' + capitalize(errorType) +' errors: ' + typedErrors.map(te => te.id).join(', ');
     }).join('\n')
 
-    const contactUsLink = <Link to={`/contact-us?ctx=${encodeURIComponent(contactUsMessage)}`} target="_blank">contact us</Link>;
-
+    // const contactUsLink = <Link to={`/contact-us?ctx=${encodeURIComponent(contactUsMessage)}`} target="_blank">contact us</Link>;
+    const contactUsLink = <Link to="mailto:genomicsdb@pennmedicine.upenn.edu"/>;
     return (
       <DefaultComponent message={props.message}>
         {
