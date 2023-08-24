@@ -29,14 +29,14 @@ export function Error(DefaultComponent: React.ComponentType<Props>) {
     }).join('\n')
 
     // const contactUsLink = <Link to={`/contact-us?ctx=${encodeURIComponent(contactUsMessage)}`} target="_blank">contact us</Link>;
-    const contactUsLink = <Link to="mailto:genomicsdb@pennmedicine.upenn.edu"/>;
+    const contactUsLink = <a href="mailto:genomicsdb@pennmedicine.upenn.edu">contact us</a>;
     return (
       <DefaultComponent message={props.message}>
         {
           props.children || (<>
             <div style={style}>
               <p>Try <a href="" title="Reload the current page.">reloading the page</a>. This frequently resolves the problem.</p>
-              <p>If the problem persists, {contactUsLink}.</p>
+              <p>If the problem persists, please {contactUsLink}.</p>
             </div>
             <div>{props.message}</div>
           </>)
